@@ -6,5 +6,22 @@
       build:
         runs-on: ubuntu-latest
         steps:
-          - name: Test
-            run: echo "Workflow udah jalan"
+          - name: Checkout code
+            uses: actions/checkout@v4
+
+          - name: Setup Python
+            uses: actions/setup-python@v5
+            with:
+              python-version: '3.10'
+
+          - name: Install Web2Apk
+            run: pip install web2apk
+
+          - name: Build APK
+            run: web2apk --url https://google.com --name "YanzApp" --package com.yanz.app --output app.apk
+
+          - name: Upload APK
+            uses: actions/upload-artifact@v4
+            with:
+              name: YanzApp.apk
+              path: app.apk
